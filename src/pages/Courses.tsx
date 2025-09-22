@@ -16,9 +16,77 @@ import {
   Award,
   CheckCircle
 } from "lucide-react";
+import { useModals } from "@/hooks/useModals";
+import EnrollmentModal from "@/components/modals/EnrollmentModal";
+import DemoModal from "@/components/modals/DemoModal";
+import CourseDetailsModal from "@/components/modals/CourseDetailsModal";
+import { useToast } from "@/hooks/use-toast";
 
 const Courses = () => {
   const [selectedCategory, setSelectedCategory] = useState("programming");
+  const { toast } = useToast();
+  const { 
+    enrollmentModalOpen,
+    openEnrollmentModal,
+    closeEnrollmentModal,
+    demoModalOpen,
+    openDemoModal,
+    closeDemoModal,
+    courseDetailsModalOpen,
+    openCourseDetailsModal,
+    closeCourseDetailsModal,
+    selectedCourseDetails
+  } = useModals();
+
+  const downloadBrochure = () => {
+    const pdfContent = `%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 44 >>
+stream
+BT
+/F1 12 Tf
+100 700 Td
+(HIET Software Solutions - Course Brochure) Tj
+ET
+endstream
+endobj
+xref
+0 5
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000206 00000 n 
+trailer
+<< /Size 5 /Root 1 0 R >>
+startxref
+300
+%%EOF`;
+
+    const blob = new Blob([pdfContent], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'HIET-Software-Solutions-Brochure.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    toast({
+      title: "Brochure Downloaded!",
+      description: "The course brochure has been downloaded to your device.",
+    });
+  };
 
   const courseCategories = {
     programming: {
@@ -244,10 +312,10 @@ const Courses = () => {
                         </div>
                         
                         <div className="flex space-x-3">
-                          <Button className="flex-1 bg-hero-gradient hover:opacity-90">
+                          <Button className="flex-1 bg-hero-gradient hover:opacity-90" onClick={() => openEnrollmentModal(course.title)}>
                             Apply Now
                           </Button>
-                          <Button variant="outline" className="flex-1">
+                          <Button variant="outline" className="flex-1" onClick={() => openCourseDetailsModal(course)}>
                             View Details
                           </Button>
                         </div>
@@ -320,15 +388,25 @@ const Courses = () => {
             Join thousands of students who have transformed their careers with our expert training.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={() => openDemoModal()}>
               Book Free Demo
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" onClick={downloadBrochure}>
               Download Brochure
             </Button>
           </div>
         </div>
       </section>
+      
+      <EnrollmentModal isOpen={enrollmentModalOpen} onClose={closeEnrollmentModal} />
+      <DemoModal isOpen={demoModalOpen} onClose={closeDemoModal} />
+      <CourseDetailsModal 
+        isOpen={courseDetailsModalOpen} 
+        onClose={closeCourseDetailsModal}
+        course={selectedCourseDetails}
+        onEnroll={openEnrollmentModal}
+        onDemo={openDemoModal}
+      />
     </div>
   );
 };

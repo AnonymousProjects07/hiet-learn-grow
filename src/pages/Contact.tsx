@@ -242,18 +242,18 @@ const Contact = () => {
                 <CardContent className="p-6">
                   <h3 className="font-semibold text-lg mb-4">Follow Us</h3>
                   <div className="flex space-x-4">
-                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-smooth">
+                    <a href="https://facebook.com/hietsoftware" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-smooth">
                       <Facebook className="text-white" size={16} />
-                    </div>
-                    <div className="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-500 transition-smooth">
+                    </a>
+                    <a href="https://twitter.com/hietsoftware" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-500 transition-smooth">
                       <Twitter className="text-white" size={16} />
-                    </div>
-                    <div className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-800 transition-smooth">
+                    </a>
+                    <a href="https://linkedin.com/company/hietsoftware" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-800 transition-smooth">
                       <Linkedin className="text-white" size={16} />
-                    </div>
-                    <div className="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-pink-700 transition-smooth">
+                    </a>
+                    <a href="https://instagram.com/hietsoftware" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-pink-700 transition-smooth">
                       <Instagram className="text-white" size={16} />
-                    </div>
+                    </a>
                   </div>
                 </CardContent>
               </Card>
@@ -283,7 +283,7 @@ const Contact = () => {
                   123 Tech Park, IT District<br />
                   Bangalore, Karnataka 560001
                 </p>
-                <Button variant="outline">
+                <Button variant="outline" onClick={() => window.open('https://maps.google.com/maps?q=123+Tech+Park,+IT+District,+Bangalore,+Karnataka+560001', '_blank')}>
                   View on Google Maps
                 </Button>
               </div>

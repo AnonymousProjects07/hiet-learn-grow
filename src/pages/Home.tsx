@@ -12,8 +12,25 @@ import {
   Quote
 } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
+import { useModals } from "@/hooks/useModals";
+import { useNavigate } from "react-router-dom";
+import LoginModal from "@/components/modals/LoginModal";
+import EnrollmentModal from "@/components/modals/EnrollmentModal";
+import DemoModal from "@/components/modals/DemoModal";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const { 
+    loginModalOpen, 
+    openLoginModal, 
+    closeLoginModal,
+    enrollmentModalOpen,
+    openEnrollmentModal,
+    closeEnrollmentModal,
+    demoModalOpen,
+    openDemoModal,
+    closeDemoModal
+  } = useModals();
   const courses = [
     {
       title: "Python Programming",
@@ -110,10 +127,10 @@ const Home = () => {
                 and guaranteed placement support at India's leading software training institute.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90 shadow-hero">
+                <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90 shadow-hero" onClick={() => navigate('/courses')}>
                   Explore Courses
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" onClick={() => openDemoModal()}>
                   Book Free Demo
                 </Button>
               </div>
@@ -209,7 +226,7 @@ const Home = () => {
                     <div>Duration: {course.duration}</div>
                     <div>Enrolled: {course.students}</div>
                   </div>
-                  <Button className="w-full mt-4 bg-hero-gradient hover:opacity-90">
+                  <Button className="w-full mt-4 bg-hero-gradient hover:opacity-90" onClick={() => openEnrollmentModal(course.title)}>
                     Learn More
                   </Button>
                 </CardContent>
@@ -217,7 +234,7 @@ const Home = () => {
             ))}
           </div>
           <div className="text-center mt-12">
-            <Button size="lg" variant="outline">
+            <Button size="lg" variant="outline" onClick={() => navigate('/courses')}>
               View All Courses
             </Button>
           </div>
@@ -269,15 +286,19 @@ const Home = () => {
             Join thousands of successful professionals who chose HIET for their career advancement.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={() => openEnrollmentModal()}>
               Start Your Journey
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" onClick={() => navigate('/contact')}>
               Schedule a Call
             </Button>
           </div>
         </div>
       </section>
+      
+      <LoginModal isOpen={loginModalOpen} onClose={closeLoginModal} />
+      <EnrollmentModal isOpen={enrollmentModalOpen} onClose={closeEnrollmentModal} />
+      <DemoModal isOpen={demoModalOpen} onClose={closeDemoModal} />
     </div>
   );
 };

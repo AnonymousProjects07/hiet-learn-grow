@@ -2,9 +2,20 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useModals } from "@/hooks/useModals";
+import LoginModal from "./modals/LoginModal";
+import EnrollmentModal from "./modals/EnrollmentModal";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { 
+    loginModalOpen, 
+    openLoginModal, 
+    closeLoginModal,
+    enrollmentModalOpen,
+    openEnrollmentModal,
+    closeEnrollmentModal
+  } = useModals();
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -47,10 +58,10 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={openLoginModal}>
               Login
             </Button>
-            <Button size="sm" className="bg-hero-gradient hover:opacity-90 transition-smooth">
+            <Button size="sm" className="bg-hero-gradient hover:opacity-90 transition-smooth" onClick={() => openEnrollmentModal()}>
               Enroll Now
             </Button>
           </div>
@@ -85,10 +96,10 @@ const Header = () => {
                 </NavLink>
               ))}
               <div className="flex flex-col space-y-2 pt-3 border-t border-border">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={openLoginModal}>
                   Login
                 </Button>
-                <Button size="sm" className="bg-hero-gradient">
+                <Button size="sm" className="bg-hero-gradient" onClick={() => openEnrollmentModal()}>
                   Enroll Now
                 </Button>
               </div>
@@ -96,6 +107,9 @@ const Header = () => {
           </div>
         )}
       </div>
+      
+      <LoginModal isOpen={loginModalOpen} onClose={closeLoginModal} />
+      <EnrollmentModal isOpen={enrollmentModalOpen} onClose={closeEnrollmentModal} />
     </header>
   );
 };
